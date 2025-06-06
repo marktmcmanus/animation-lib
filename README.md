@@ -2,7 +2,7 @@
 # animation-lib
 A simple c++ library that wraps up the [Windows Animation Manager](https://learn.microsoft.com/en-us/windows/win32/api/_uianimation/) in a easy to use package. 
 
-The current version, 0.1, only covers a fraction if the functionality of Windows Animation Manager, but can still be use to make very simple animations.
+The current version, only covers a fraction if the functionality of Windows Animation Manager, but can still be use to make very simple animations.
 
 ### Building the Project
 
