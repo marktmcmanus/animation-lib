@@ -6,7 +6,9 @@
 
 #include <wx/wx.h>
 #include <wx/dc.h>
-#include <wx/dcprint.h>
+#include <wx/dcbuffer.h>
+#include <wx/dcgraph.h>
+#include <wx/graphics.h>
 
 const UI_ANIMATION_SECONDS DURATION = 1.5;
 const DOUBLE ACCELERATION_RATIO = 0.5;
@@ -16,21 +18,28 @@ MainWindow::MainWindow(const wxString &title, const wxPoint &pos, const wxSize &
     : wxFrame(NULL, wxID_ANY, title, pos, size),
       m_AnimationManager(animationManager)
 {
+	SetBackgroundStyle(wxBG_STYLE_PAINT);
+
     MainWindowAnimationEventHandler* timerHandler = new MainWindowAnimationEventHandler(this);
     m_AnimationManager.SetTimerEventHandler(timerHandler);
     m_VarX = m_AnimationManager.CreateVariable(10.0);
     m_VarY = m_AnimationManager.CreateVariable(10.0);
 
     Bind(wxEVT_PAINT, &MainWindow::OnPaint, this);
-    Bind(wxEVT_LEFT_DOWN, &MainWindow::OnLeftDown, this);
+
+    CreateMenuBar();
+    
+	SetStatusBar(new wxStatusBar(this, wxID_ANY));
+    SetStatusText("Welcome to the Animation Example!");
 }
 
 void MainWindow::OnPaint(wxPaintEvent &evt)
 {
-    wxPaintDC mydc(this);
+    wxBufferedPaintDC pdc(this);
+	wxGCDC gcdc(pdc);
 
-    mydc.SetBackground(*wxWHITE_BRUSH);
-    mydc.Clear();
+    gcdc.SetBackground(*wxWHITE_BRUSH);
+    gcdc.Clear();
 
     auto xVar1 = m_VarX.lock();
     if (xVar1 != nullptr)
@@ -38,9 +47,9 @@ void MainWindow::OnPaint(wxPaintEvent &evt)
         auto x = xVar1->GetInteger();
         if (x.has_value())
         {
-            wxColour myColour(255, 0, 0, wxALPHA_OPAQUE);
-            mydc.SetBrush(wxBrush(myColour, wxSOLID));
-            mydc.DrawRectangle(*x, 10, 100, 100);
+            wxColour myColour(255, 0, 0, 100);
+            gcdc.SetBrush(wxBrush(myColour));
+            gcdc.DrawRectangle(*x, 10, 100, 100);
         }
     }
 
@@ -51,8 +60,8 @@ void MainWindow::OnPaint(wxPaintEvent &evt)
         if (x.has_value())
         {
             wxColour myColour(0, 255, 0, wxALPHA_OPAQUE);
-            mydc.SetBrush(wxBrush(myColour, wxSOLID));
-            mydc.DrawRectangle(*x, 120, 100, 100);
+            gcdc.SetBrush(wxBrush(myColour));
+            gcdc.DrawRectangle(*x, 120, 100, 100);
         }
     }
 
@@ -75,10 +84,37 @@ void MainWindow::OnPaint(wxPaintEvent &evt)
     //}
 }
 
-void MainWindow::OnLeftDown(wxMouseEvent &evt)
+void MainWindow::CreateMenuBar()
 {
-    int i = 0;
-    CreateStoryboard();
+    // Create a menu bar
+    auto* menuBar = new wxMenuBar();
+
+    // File menu
+    auto* fileMenu = new wxMenu();
+    fileMenu->Append(wxID_EXIT, "&Exit\tAlt-X", "Quit this program");
+    menuBar->Append(fileMenu, "&File");
+
+    // Animation menu
+    auto* animationMenu = new wxMenu();
+    animationMenu->Append(wxID_ANY, "&Start Animation\tCtrl-A", "Start the animation");
+    menuBar->Append(animationMenu, "&Animation");
+
+    // Help menu
+    auto* helpMenu = new wxMenu();
+    helpMenu->Append(wxID_ABOUT, "&About\tF1", "Show about dialog");
+    menuBar->Append(helpMenu, "&Help");
+
+    // Attach the menu bar to the frame
+    SetMenuBar(menuBar);
+
+    // Bind menu events
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event) { Close(true); }, wxID_EXIT);
+
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event) { 
+        wxMessageBox("This is a simple animation example using wxWidgets.", "About Animation Example", wxOK | wxICON_INFORMATION); 
+        }, wxID_ABOUT);
+
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event) { CreateStoryboard(); }, animationMenu->FindItem("&Start Animation\tCtrl-A"));
 }
 
 void MainWindow::CreateStoryboard()

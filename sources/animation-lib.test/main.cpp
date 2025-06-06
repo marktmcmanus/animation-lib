@@ -20,7 +20,7 @@ bool MyApp::OnInit()
     HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
     m_AnimationManager = std::make_unique<anim::AnimationManager>();
 
-    MainWindow *frame = new MainWindow("Hello Everyone!", wxDefaultPosition, wxSize(800, 800), *m_AnimationManager);
+    MainWindow *frame = new MainWindow("animation-lib example", wxDefaultPosition, wxSize(800, 800), *m_AnimationManager);
     frame->Show(true);
     return true;
 }

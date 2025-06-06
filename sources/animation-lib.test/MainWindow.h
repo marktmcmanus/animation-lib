@@ -18,8 +18,8 @@ public:
 
 private:
     void OnPaint(wxPaintEvent &evt);
-    void OnLeftDown(wxMouseEvent &evt);
 
+	void CreateMenuBar();
     void CreateStoryboard();
 
     anim::AnimationManager &m_AnimationManager;
