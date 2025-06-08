@@ -38,11 +38,11 @@ set(SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowAnimationEventHandler.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowAnimationEventHandler.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.exe.manifest" )
-
-# add_compile_definitions(WIN32_LEAN_AND_MEAN)
 
 add_executable("${PROJECT_NAME}.test" WIN32 ${SRCS} )
 target_compile_definitions("${PROJECT_NAME}.test" PUBLIC WIN32_LEAN_AND_MEAN)

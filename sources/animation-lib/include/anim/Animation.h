@@ -7,17 +7,19 @@
 #include <uianimation.h>
 
 #include <memory>
+#include <unordered_map>
 #include <vector>
+#include <optional>
 
 namespace anim
 {
-    class AnimationManager
+    class Animation
     {
     public:
-        AnimationManager();
-        ~AnimationManager();
+        Animation();
+        ~Animation();
 
-        std::weak_ptr<AnimationVariable> CreateVariable(double initialValue);
+        std::weak_ptr<AnimationVariable> CreateVariable(double initialValue, std::optional<uint32_t> tag = std::nullopt);
         std::weak_ptr<Storyboard> CreateStoryboard();
         bool SetTimerEventHandler(IUIAnimationTimerEventHandler* eventHandler);
         std::optional<double> GetTime();
@@ -34,8 +36,7 @@ namespace anim
         IUIAnimationTimer* m_AnimationTimer{ nullptr };
         anim::TransitionLibrary m_TransitionLibrary;
 
-        int m_NextVariableId{ 0 };
-        std::vector<std::shared_ptr<AnimationVariable>> m_Variables;
+        std::unordered_map<std::int32_t, std::shared_ptr<AnimationVariable>> m_Variables;
 
         int m_NextStoryBoardId{ 0 };
         std::shared_ptr<Storyboard> m_Storyboard;

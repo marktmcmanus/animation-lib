@@ -1,13 +1,13 @@
-#include "anim/AnimationManager.h"
+#include "anim/Animation.h"
 
-anim::AnimationManager::AnimationManager()
+anim::Animation::Animation()
 {
     CreateAnimationManager();
     CreateAnimationTimer();
     InitializeTimerUpdateHandler();
 }
 
-anim::AnimationManager::~AnimationManager()
+anim::Animation::~Animation()
 {
     m_Variables.clear();
 
@@ -22,7 +22,9 @@ anim::AnimationManager::~AnimationManager()
     }
 }
 
-std::weak_ptr<anim::AnimationVariable> anim::AnimationManager::CreateVariable(double initialValue)
+std::weak_ptr<anim::AnimationVariable> anim::Animation::CreateVariable(
+    double initialValue,
+    std::optional<uint32_t> tag )
 {
     std::weak_ptr<AnimationVariable> ret;
 
@@ -31,19 +33,19 @@ std::weak_ptr<anim::AnimationVariable> anim::AnimationManager::CreateVariable(do
         std::shared_ptr<AnimationVariable> var = std::make_shared<AnimationVariable>(
             m_AnimationManager,
             initialValue,
-            m_NextVariableId++);
+            tag );
 
         if (var->IsOk())
         {
-            m_Variables.push_back(var);
-            ret = var;
+			m_Variables.emplace(var->GetTag(), var);
+            return m_Variables[var->GetTag()];
         }
     }
 
     return ret;
 }
 
-std::weak_ptr<anim::Storyboard> anim::AnimationManager::CreateStoryboard()
+std::weak_ptr<anim::Storyboard> anim::Animation::CreateStoryboard()
 {
     std::weak_ptr<Storyboard> ret;
 
@@ -60,7 +62,7 @@ std::weak_ptr<anim::Storyboard> anim::AnimationManager::CreateStoryboard()
     return ret;
 }
 
-bool anim::AnimationManager::SetTimerEventHandler(IUIAnimationTimerEventHandler *eventHandler)
+bool anim::Animation::SetTimerEventHandler(IUIAnimationTimerEventHandler *eventHandler)
 {
     if (m_AnimationTimer != nullptr)
     {
@@ -70,7 +72,7 @@ bool anim::AnimationManager::SetTimerEventHandler(IUIAnimationTimerEventHandler 
     return false;
 }
 
-std::optional<double> anim::AnimationManager::GetTime()
+std::optional<double> anim::Animation::GetTime()
 {
     double secondsNow;
     HRESULT hr = m_AnimationTimer->GetTime(&secondsNow);
@@ -81,7 +83,7 @@ std::optional<double> anim::AnimationManager::GetTime()
     return std::nullopt;
 }
 
-void anim::AnimationManager::CreateAnimationManager()
+void anim::Animation::CreateAnimationManager()
 {
     m_Error = CoCreateInstance(
         CLSID_UIAnimationManager,
@@ -90,7 +92,7 @@ void anim::AnimationManager::CreateAnimationManager()
         IID_PPV_ARGS(&m_AnimationManager));
 }
 
-void anim::AnimationManager::CreateAnimationTimer()
+void anim::Animation::CreateAnimationTimer()
 {
     if (SUCCEEDED(m_Error))
     {
@@ -102,7 +104,7 @@ void anim::AnimationManager::CreateAnimationTimer()
     }
 }
 
-void anim::AnimationManager::InitializeTimerUpdateHandler()
+void anim::Animation::InitializeTimerUpdateHandler()
 {
     if (SUCCEEDED(m_Error))
     {

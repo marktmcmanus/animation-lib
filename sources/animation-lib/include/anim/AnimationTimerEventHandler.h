@@ -1,5 +1,7 @@
 #pragma once
 
+#include "anim/IUnknownHelper.h"
+
 #include <uianimation.h>
 
 namespace anim
@@ -9,10 +11,7 @@ namespace anim
     public:
         AnimationTimerEventHandler() = default;
 
-        // IUnknown
-        ULONG AddRef() override;
-        ULONG Release() override;
-        HRESULT QueryInterface(REFIID riid, LPVOID* ppvObj) override;
+        _ANIM_IUNKNOWN_DECL
 
         // IUIAnimationTimerEventHandler
         virtual HRESULT OnPostUpdate() override;
@@ -20,7 +19,6 @@ namespace anim
         virtual HRESULT OnRenderingTooSlow(UINT32 framesPerSecond) override;
 
     private:
-        //wxWeakRef<MainWindow> m_MainWindow;
         LONG m_Ref{ 0 };
     };
 }
