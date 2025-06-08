@@ -13,10 +13,10 @@ namespace anim
     class Storyboard
     {
     public:
-        Storyboard(IUIAnimationManager* manager, int id);
+        Storyboard(IUIAnimationManager* manager, std::optional<uint32_t> tag);
         ~Storyboard();
 
-        int GetId() const { return m_Id; }
+        std::uint32_t GetTag() const { return m_Tag; }
         bool IsOK() const;
 
         using TransitionOptRef = std::optional<std::reference_wrapper<anim::transition::Transition>>;
@@ -31,9 +31,11 @@ namespace anim
     private:
         UI_ANIMATION_KEYFRAME GetOrCreateKeyFrame(double offset);
 
-        int m_Id;
+        std::uint32_t m_Tag{ 0 };
         HRESULT m_Error;
         IUIAnimationStoryboard* m_Storyboard{ nullptr };
         std::unordered_map<double, UI_ANIMATION_KEYFRAME> m_KeyFrames;
+
+        static std::uint32_t m_NextId;
     };
 }

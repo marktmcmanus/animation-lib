@@ -20,7 +20,7 @@ namespace anim
         ~Animation();
 
         std::weak_ptr<AnimationVariable> CreateVariable(double initialValue, std::optional<uint32_t> tag = std::nullopt);
-        std::weak_ptr<Storyboard> CreateStoryboard();
+        std::weak_ptr<Storyboard> CreateStoryboard(std::optional<uint32_t> tag = std::nullopt);
         bool SetTimerEventHandler(IUIAnimationTimerEventHandler* eventHandler);
         std::optional<double> GetTime();
 
@@ -36,9 +36,7 @@ namespace anim
         IUIAnimationTimer* m_AnimationTimer{ nullptr };
         anim::TransitionLibrary m_TransitionLibrary;
 
-        std::unordered_map<std::int32_t, std::shared_ptr<AnimationVariable>> m_Variables;
-
-        int m_NextStoryBoardId{ 0 };
-        std::shared_ptr<Storyboard> m_Storyboard;
+        std::unordered_map<std::uint32_t, std::shared_ptr<AnimationVariable>> m_Variables;
+        std::unordered_map<std::uint32_t, std::shared_ptr<Storyboard>> m_Storyboards;
     };
 }

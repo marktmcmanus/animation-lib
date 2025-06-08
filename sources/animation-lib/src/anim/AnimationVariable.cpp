@@ -4,7 +4,7 @@
 #include "anim/AnimationVariable.h"
 
 #include <limits>
-UINT32 anim::AnimationVariable::m_NextId = std::numeric_limits<uint32_t>::max();
+std::uint32_t anim::AnimationVariable::m_NextId = std::numeric_limits<uint32_t>::max();
 
 anim::AnimationVariable::AnimationVariable(
     IUIAnimationManager *manager, 

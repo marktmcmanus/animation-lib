@@ -1,9 +1,28 @@
+#define NOMINMAX
+
 #include "anim/Storyboard.h"
 
-anim::Storyboard::Storyboard(IUIAnimationManager *manager, int id)
-    : m_Id(id)
+#include <limits>
+std::uint32_t anim::Storyboard::m_NextId = std::numeric_limits<uint32_t>::max();
+
+anim::Storyboard::Storyboard(IUIAnimationManager *manager, std::optional<uint32_t> tag)
 {
     m_Error = manager->CreateStoryboard(&m_Storyboard);
+
+    if (SUCCEEDED(m_Error) && m_Storyboard != nullptr)
+    {
+        m_Tag = tag.value_or(m_NextId--);
+        m_Error = m_Storyboard->SetTag(nullptr, m_Tag);
+        if (FAILED(m_Error))
+        {
+            m_Storyboard->Release();
+            m_Storyboard = nullptr;
+        }
+    }
+    else
+    {
+        m_Storyboard = nullptr;
+    }
 }
 
 anim::Storyboard::~Storyboard()

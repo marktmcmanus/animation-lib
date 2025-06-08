@@ -12,7 +12,10 @@ namespace anim
     class AnimationVariable
     {
     public:
-        AnimationVariable(IUIAnimationManager* manager, double initialValue, std::optional<uint32_t> tag);
+        AnimationVariable(
+            IUIAnimationManager* manager, 
+            double initialValue, 
+            std::optional<uint32_t> tag);
         ~AnimationVariable();
 
         HRESULT SetChangeHandler(VariableChangeHandler* handler);
@@ -29,8 +32,8 @@ namespace anim
         std::uint32_t m_Tag{ 0 };
         HRESULT m_Error;
 
-		static std::uint32_t m_NextId;
-
         IUIAnimationVariable* m_AnimationVariable{ nullptr };
+
+        static std::uint32_t m_NextId;
     };
 }

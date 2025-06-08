@@ -45,17 +45,20 @@ std::weak_ptr<anim::AnimationVariable> anim::Animation::CreateVariable(
     return ret;
 }
 
-std::weak_ptr<anim::Storyboard> anim::Animation::CreateStoryboard()
+std::weak_ptr<anim::Storyboard> anim::Animation::CreateStoryboard(std::optional<uint32_t> tag)
 {
     std::weak_ptr<Storyboard> ret;
 
     if (m_AnimationManager != nullptr)
     {
-        std::shared_ptr<Storyboard> sb = std::make_shared<Storyboard>(m_AnimationManager, m_NextStoryBoardId++);
+        std::shared_ptr<Storyboard> sb = std::make_shared<Storyboard>(
+            m_AnimationManager,
+            tag);
+
         if (sb->IsOK())
         {
-            m_Storyboard = sb;
-            ret = m_Storyboard;
+            m_Storyboards.emplace(sb->GetTag(), sb);
+            return m_Storyboards[sb->GetTag()];
         }
     }
 
