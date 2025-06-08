@@ -28,8 +28,8 @@ private:
 
 	anim::TransitionLibrary& m_TransitionLibrary;
     std::unique_ptr<anim::Animation> m_Animation;
-    std::weak_ptr<anim::AnimationVariable> m_VarX;
-    std::weak_ptr<anim::AnimationVariable> m_VarY;
+    //std::weak_ptr<anim::AnimationVariable> m_VarX;
+    //std::weak_ptr<anim::AnimationVariable> m_VarY;
     std::weak_ptr<anim::Storyboard> m_Storyboard;
 
     int m_XValue{10};

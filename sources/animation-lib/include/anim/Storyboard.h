@@ -17,7 +17,7 @@ namespace anim
         ~Storyboard();
 
         std::uint32_t GetTag() const { return m_Tag; }
-        bool IsOK() const;
+		bool IsOk() const { return m_Storyboard != nullptr; }
 
         using TransitionOptRef = std::optional<std::reference_wrapper<anim::transition::Transition>>;
         bool AddTransition( 
@@ -26,10 +26,17 @@ namespace anim
             double offset = 0.0,
             TransitionOptRef afterTransition = std::nullopt );
 
-        bool Start(double now);
+        bool Schedule(double now);
+        bool Abandon();
+		bool Conclude();
+		bool Finish( double completionDeadline);
+		std::optional<UI_ANIMATION_STORYBOARD_STATUS> GetStatus();
+		bool HoldVariable(AnimationVariable& var);
+		bool SetLongestAcceptableDelay(double delay);
+		HRESULT GetError() const { return m_Error; }
 
     private:
-        UI_ANIMATION_KEYFRAME GetOrCreateKeyFrame(double offset);
+        std::optional<UI_ANIMATION_KEYFRAME> GetOrCreateKeyFrame(double offset);
 
         std::uint32_t m_Tag{ 0 };
         HRESULT m_Error;

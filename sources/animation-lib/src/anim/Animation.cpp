@@ -55,7 +55,7 @@ std::weak_ptr<anim::Storyboard> anim::Animation::CreateStoryboard(std::optional<
             m_AnimationManager,
             tag);
 
-        if (sb->IsOK())
+        if (sb->IsOk())
         {
             m_Storyboards.emplace(sb->GetTag(), sb);
             return m_Storyboards[sb->GetTag()];
@@ -84,6 +84,49 @@ std::optional<double> anim::Animation::GetTime()
         return secondsNow;
     }
     return std::nullopt;
+}
+
+std::weak_ptr<anim::AnimationVariable> anim::Animation::GetVariable(std::uint32_t tag) const
+{
+    auto it = m_Variables.find(tag);
+    if (it != m_Variables.end())
+    {
+        return it->second;
+    }
+	return std::weak_ptr<AnimationVariable>();
+}
+
+std::weak_ptr<anim::AnimationVariable> anim::Animation::GetVariable(IUIAnimationVariable* variable) const
+{
+	std::uint32_t tag = 0;
+    HRESULT hr = variable->GetTag(nullptr, &tag);
+    if(SUCCEEDED(hr))
+    {
+        return GetVariable(tag);
+	}
+    
+	return std::weak_ptr<AnimationVariable>();
+}
+
+std::weak_ptr<anim::Storyboard> anim::Animation::GetStoryboard(std::uint32_t tag) const
+{
+    auto it = m_Storyboards.find(tag);
+    if (it != m_Storyboards.end())
+    {
+        return it->second;
+    }
+    return std::weak_ptr<Storyboard>();
+}
+
+std::weak_ptr<anim::Storyboard> anim::Animation::GetStoryboard(IUIAnimationStoryboard* variable) const
+{
+    std::uint32_t tag = 0;
+    HRESULT hr = variable->GetTag(nullptr, &tag);
+    if (SUCCEEDED(hr))
+    {
+        return GetStoryboard(tag);
+    }
+	return std::weak_ptr<Storyboard>();
 }
 
 void anim::Animation::CreateAnimationManager()

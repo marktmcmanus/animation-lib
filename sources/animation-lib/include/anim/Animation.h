@@ -24,6 +24,12 @@ namespace anim
         bool SetTimerEventHandler(IUIAnimationTimerEventHandler* eventHandler);
         std::optional<double> GetTime();
 
+		std::weak_ptr<AnimationVariable> GetVariable(std::uint32_t tag) const;
+		std::weak_ptr<AnimationVariable> GetVariable(IUIAnimationVariable* variable) const;
+        std::weak_ptr<Storyboard> GetStoryboard(std::uint32_t tag) const;
+        std::weak_ptr<Storyboard> GetStoryboard(IUIAnimationStoryboard* variable) const;
+
+
     private:
         void CreateAnimationManager();
         void CreateAnimationTimer();

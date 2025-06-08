@@ -26,13 +26,13 @@ MainWindow::MainWindow(anim::TransitionLibrary& transitionLibrary, const wxPoint
     WindowAnimationEventHandler* timerHandler = new WindowAnimationEventHandler(this);
     m_Animation->SetTimerEventHandler(timerHandler);
 
-    m_VarX = m_Animation->CreateVariable(10.0, VariablIds::X);
+    auto xVar = m_Animation->CreateVariable(10.0, VariablIds::X);
 	MainWindowVariableChangeHandler* xChangeHandler = new MainWindowVariableChangeHandler(this);
-	m_VarX.lock()->SetChangeHandler(xChangeHandler);
+	xVar.lock()->SetChangeHandler(xChangeHandler);
 
-    m_VarY = m_Animation->CreateVariable(10.0, VariablIds::Y);
+    auto yVar = m_Animation->CreateVariable(10.0, VariablIds::Y);
     MainWindowVariableChangeHandler* yChangeHandler = new MainWindowVariableChangeHandler(this);
-    m_VarY.lock()->SetChangeHandler(yChangeHandler);
+    yVar.lock()->SetChangeHandler(yChangeHandler);
 
     Bind(wxEVT_PAINT, &MainWindow::OnPaint, this);
 
@@ -117,40 +117,49 @@ void MainWindow::CreateStoryboard()
 
     if (auto sb = m_Storyboard.lock(); sb != nullptr)
     {
+		auto xVar = m_Animation->GetVariable(VariablIds::X).lock();
+		auto yVar = m_Animation->GetVariable(VariablIds::Y).lock();
+
+        if (xVar == nullptr || yVar == nullptr)
+        {
+            wxLogError("Variables not found. Cannot create storyboard.");
+            return;
+        }
+
         auto ad1 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 600, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad1);
 
-        sb->AddTransition(ad1, *m_VarX.lock());
+        sb->AddTransition(ad1, *xVar);
 
         auto ad2 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 600, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad2);
-        sb->AddTransition(ad2, *m_VarY.lock(), 0.5, *ad1);
+        sb->AddTransition(ad2, *yVar, 0.5, *ad1);
 
         auto const1 = m_TransitionLibrary.CreateConstantTransition( 1 );
         m_Transitions.push_back(const1);
-        sb->AddTransition(const1, *m_VarX.lock());
+        sb->AddTransition(const1, *xVar);
 
         auto const2 = m_TransitionLibrary.CreateConstantTransition( 1 );
         m_Transitions.push_back(const2);
-        sb->AddTransition(const2, *m_VarY.lock());
+        sb->AddTransition(const2, *yVar);
 
         auto ad3 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 10, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad3);
-        sb->AddTransition(ad3, *m_VarX.lock());
+        sb->AddTransition(ad3, *xVar);
 
         auto ad4 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 10, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad4);
-        sb->AddTransition(ad4, *m_VarY.lock());
+        sb->AddTransition(ad4, *yVar);
         
 
         auto time = m_Animation->GetTime();
         if (time.has_value())
         {
-            sb->Start(time.value());
+            sb->Schedule(time.value());
         }
     }
 }

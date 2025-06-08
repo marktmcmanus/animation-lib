@@ -62,8 +62,30 @@ HRESULT anim::AnimationVariable::SetChangeHandler(VariableIntegerChangeHandler* 
 std::optional<double> anim::AnimationVariable::GetDouble()
 {
     double val{0};
-    HRESULT hr = m_AnimationVariable->GetValue(&val);
-    if (SUCCEEDED(hr))
+    m_Error = m_AnimationVariable->GetValue(&val);
+    if (SUCCEEDED(m_Error))
+    {
+        return val;
+    }
+    return std::nullopt;
+}
+
+std::optional<double> anim::AnimationVariable::GetFinalDouble()
+{
+    double val{ 0 };
+    m_Error = m_AnimationVariable->GetFinalValue(&val);
+    if (SUCCEEDED(m_Error))
+    {
+        return val;
+    }
+    return std::nullopt;
+}
+
+std::optional<double> anim::AnimationVariable::GetPreviousDouble()
+{
+    double val{ 0 };
+    m_Error = m_AnimationVariable->GetPreviousValue(&val);
+    if (SUCCEEDED(m_Error))
     {
         return val;
     }
@@ -73,15 +95,76 @@ std::optional<double> anim::AnimationVariable::GetDouble()
 std::optional<int> anim::AnimationVariable::GetInteger()
 {
     int val{0};
-    HRESULT hr = m_AnimationVariable->GetIntegerValue(&val);
-    if (SUCCEEDED(hr))
+    m_Error = m_AnimationVariable->GetIntegerValue(&val);
+    if (SUCCEEDED(m_Error))
     {
         return val;
     }
     return std::nullopt;
 }
 
-bool anim::AnimationVariable::IsOk() const
+std::optional<int> anim::AnimationVariable::GetFinalInteger()
 {
-    return m_AnimationVariable != nullptr && SUCCEEDED(m_Error);
+    int val{ 0 };
+    m_Error = m_AnimationVariable->GetFinalIntegerValue(&val);
+    if (SUCCEEDED(m_Error))
+    {
+        return val;
+    }
+    return std::nullopt;
+}
+
+std::optional<int> anim::AnimationVariable::GetPreviousInteger()
+{
+    int val{ 0 };
+    m_Error = m_AnimationVariable->GetPreviousIntegerValue(&val);
+    if (SUCCEEDED(m_Error))
+    {
+        return val;
+    }
+    return std::nullopt;
+}
+
+IUIAnimationStoryboard* anim::AnimationVariable::GetStoryboard()
+{
+    if (m_AnimationVariable != nullptr)
+    {
+        IUIAnimationStoryboard* storyboard = nullptr;
+        m_Error = m_AnimationVariable->GetCurrentStoryboard(&storyboard);
+        if (SUCCEEDED(m_Error) && storyboard != nullptr)
+        {
+            return storyboard;
+        }
+    }
+	return nullptr;
+}
+
+bool anim::AnimationVariable::SetLowerBounds(double lowerBound)
+{
+    if (m_AnimationVariable != nullptr)
+    {
+        m_Error = m_AnimationVariable->SetLowerBound(lowerBound);
+        return SUCCEEDED(m_Error);
+    }
+	return false;
+}
+
+bool anim::AnimationVariable::SetUpperBounds(double upperBound)
+{
+    if (m_AnimationVariable != nullptr)
+    {
+        m_Error = m_AnimationVariable->SetUpperBound(upperBound);
+        return SUCCEEDED(m_Error);
+    }
+    return false;
+}
+
+bool anim::AnimationVariable::SetRoundingMode(UI_ANIMATION_ROUNDING_MODE roundingMode)
+{
+    if (m_AnimationVariable != nullptr)
+    {
+        m_Error = m_AnimationVariable->SetRoundingMode(roundingMode);
+        return SUCCEEDED(m_Error);
+    }
+	return false;
 }
