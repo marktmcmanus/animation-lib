@@ -15,8 +15,9 @@ const UI_ANIMATION_SECONDS DURATION = 1.5;
 const DOUBLE ACCELERATION_RATIO = 0.5;
 const DOUBLE DECELERATION_RATIO = 0.5;
 
-MainWindow::MainWindow(const wxString &title, const wxPoint &pos, const wxSize &size )
-    : wxFrame(NULL, wxID_ANY, title, pos, size)
+MainWindow::MainWindow(anim::TransitionLibrary& transitionLibrary, const wxPoint &pos, const wxSize &size )
+    : wxFrame(NULL, wxID_ANY, "animation-lib example", pos, size),
+      m_TransitionLibrary(transitionLibrary)
 {
     m_Animation = std::make_unique<anim::Animation>();
 	SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -116,31 +117,31 @@ void MainWindow::CreateStoryboard()
 
     if (auto sb = m_Storyboard.lock(); sb != nullptr)
     {
-        auto ad1 = m_Animation->GetTransitionLibrary().CreateAccelerateDecelerateTransition( 
+        auto ad1 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 600, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad1);
 
         sb->AddTransition(ad1, *m_VarX.lock());
 
-        auto ad2 = m_Animation->GetTransitionLibrary().CreateAccelerateDecelerateTransition( 
+        auto ad2 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 600, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad2);
         sb->AddTransition(ad2, *m_VarY.lock(), 0.5, *ad1);
 
-        auto const1 = m_Animation->GetTransitionLibrary().CreateConstantTransition( 1 );
+        auto const1 = m_TransitionLibrary.CreateConstantTransition( 1 );
         m_Transitions.push_back(const1);
         sb->AddTransition(const1, *m_VarX.lock());
 
-        auto const2 = m_Animation->GetTransitionLibrary().CreateConstantTransition( 1 );
+        auto const2 = m_TransitionLibrary.CreateConstantTransition( 1 );
         m_Transitions.push_back(const2);
         sb->AddTransition(const2, *m_VarY.lock());
 
-        auto ad3 = m_Animation->GetTransitionLibrary().CreateAccelerateDecelerateTransition( 
+        auto ad3 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 10, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad3);
         sb->AddTransition(ad3, *m_VarX.lock());
 
-        auto ad4 = m_Animation->GetTransitionLibrary().CreateAccelerateDecelerateTransition( 
+        auto ad4 = m_TransitionLibrary.CreateAccelerateDecelerateTransition(
             DURATION, 10, ACCELERATION_RATIO, DECELERATION_RATIO);
         m_Transitions.push_back(ad4);
         sb->AddTransition(ad4, *m_VarY.lock());

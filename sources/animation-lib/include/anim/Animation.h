@@ -24,8 +24,6 @@ namespace anim
         bool SetTimerEventHandler(IUIAnimationTimerEventHandler* eventHandler);
         std::optional<double> GetTime();
 
-        const anim::TransitionLibrary& GetTransitionLibrary() const { return m_TransitionLibrary; }
-
     private:
         void CreateAnimationManager();
         void CreateAnimationTimer();
@@ -34,7 +32,6 @@ namespace anim
         HRESULT m_Error{ E_NOT_SET };
         IUIAnimationManager* m_AnimationManager{ nullptr };
         IUIAnimationTimer* m_AnimationTimer{ nullptr };
-        anim::TransitionLibrary m_TransitionLibrary;
 
         std::unordered_map<std::uint32_t, std::shared_ptr<AnimationVariable>> m_Variables;
         std::unordered_map<std::uint32_t, std::shared_ptr<Storyboard>> m_Storyboards;

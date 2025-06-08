@@ -11,7 +11,7 @@ class MainWindow : public wxFrame
 {
 public:
     MainWindow(
-        const wxString &title,
+        anim::TransitionLibrary& transitionLibrary,
         const wxPoint &pos,
         const wxSize &size );
 
@@ -26,6 +26,7 @@ private:
 	void CreateMenuBar();
     void CreateStoryboard();
 
+	anim::TransitionLibrary& m_TransitionLibrary;
     std::unique_ptr<anim::Animation> m_Animation;
     std::weak_ptr<anim::AnimationVariable> m_VarX;
     std::weak_ptr<anim::AnimationVariable> m_VarY;
