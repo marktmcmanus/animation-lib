@@ -42,6 +42,8 @@ set(SRCS
 	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.exe.manifest" )
 
 add_executable("${PROJECT_NAME}.test" WIN32 ${SRCS} )

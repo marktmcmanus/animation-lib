@@ -1,9 +1,12 @@
 #pragma once
 
 #define _ANIM_IUNKNOWN_DECL											\
+public:																\
 	ULONG AddRef() override;										\
 	ULONG Release() override;										\
-	HRESULT QueryInterface(REFIID riid, LPVOID* ppvObj) override;	
+	HRESULT QueryInterface(REFIID riid, LPVOID* ppvObj) override;	\
+private:															\
+	LONG m_Ref{ 0 };
 
 #define _ANIM_IUNKNOWN_IMPL(className, iface)						\
 	ULONG className::AddRef()										\
