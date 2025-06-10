@@ -78,14 +78,14 @@ namespace anim
          * @param tag The unique identifier (tag) of the `AnimationVariable` to retrieve.
          * @return A std::weak_ptr to the `AnimationVariable` corresponding to the given tag. If no variable is found, the returned weak pointer will be empty.
          */
-		std::weak_ptr<AnimationVariable> GetVariable(std::uint32_t tag) const;
+        std::weak_ptr<AnimationVariable> GetVariable(std::uint32_t tag) const;
 
         /**
          * @brief Retrieves a std::weak_ptr to an `AnimationVariable` corresponding to the given `IUIAnimationVariable` pointer.
          * @param variable A pointer to the `IUIAnimationVariable` for which to obtain the `AnimationVariable`.
          * @return A std::weak_ptr to the associated `AnimationVariable` object. If no variable is found, the returned weak pointer will be empty.
          */
-		std::weak_ptr<AnimationVariable> GetVariable(IUIAnimationVariable* variable) const;
+        std::weak_ptr<AnimationVariable> GetVariable(IUIAnimationVariable* variable) const;
 
         /**
          * @brief Retrieves a weak pointer to the `Storyboard` associated with the specified tag.
