@@ -16,8 +16,8 @@ namespace anim
     /**
      * @brief Represents an animation system that manages animation variables, storyboards, and timer events.
      * 
-	 * The `Animation` class uses the <a href="https://learn.microsoft.com/en-us/windows/win32/api/_uianimation/">Windows UI Animation Manager</a> to 
-	 * create and manage animations. It allows for the creation of animation variables and storyboards, and provides methods to set timer event handlers 
+     * The `Animation` class uses the <a href="https://learn.microsoft.com/en-us/windows/win32/api/_uianimation/">Windows UI Animation Manager</a> to 
+     * create and manage animations. It allows for the creation of animation variables and storyboards, and provides methods to set timer event handlers 
      * and retrieve current time.
      * 
      * Animations currently only supports Timer-Driven Animations (rather than Application-Driven Animations).
@@ -29,23 +29,23 @@ namespace anim
          * @brief Constructs an `Animation` object and initializes the animation manager and timer.
          * 
          * This constructor sets up the necessary components for animation management, including the animation manager and timer.
-		 */
+         */
         Animation();
 
         /**
          * @brief Destroys the `Animation` object and releases resources.
          * 
          * This destructor cleans up the animation manager and timer, ensuring that all resources are properly released.
-		 */
+         */
         ~Animation();
 
         /**
          * @brief Creates a new `AnimationVariable` with the specified initial value and an optional tag.
          * @param initialValue The initial value to assign to the `AnimationVariable`.
-		 * @param tag An optional tag to associate with the `AnimationVariable`. If not provided, a default tag will be used. 
-		 * For more information see the documentation for `AnimationVariable`.
+         * @param tag An optional tag to associate with the `AnimationVariable`. If not provided, a default tag will be used. 
+         * For more information see the documentation for `AnimationVariable`.
          * @return A std::weak_ptr to the newly created `AnimationVariable`.
-		 * @remarks This is the prefered way to create and add an `AnimationVariable` to an animation (rather than 
+         * @remarks This is the prefered way to create and add an `AnimationVariable` to an animation (rather than 
          * creating the `AnimationVariable` directly).
          */
         std::weak_ptr<AnimationVariable> CreateVariable(double initialValue, std::optional<uint32_t> tag = std::nullopt);
@@ -53,7 +53,7 @@ namespace anim
         /**
          * @brief Creates a new `Storyboard` with an optional tag.
          * @param tag An optional tag to associate with the `Storyboard`. If not provided, a default tag will be used.
-		 * @return A std::weak_ptr to the newly created `Storyboard`.
+         * @return A std::weak_ptr to the newly created `Storyboard`.
          * @remarks This is the prefered way to create and add a `Storyboard` to an animation (rather than 
          * creating the `Storyboard` directly).
          */
@@ -73,18 +73,18 @@ namespace anim
          */
         std::optional<double> GetTime();
 
-		/**
-		 * @brief Retrieves a weak pointer to the `AnimationVariable` associated with the specified tag.
-		 * @param tag The unique identifier (tag) of the `AnimationVariable` to retrieve.
-		 * @return A std::weak_ptr to the `AnimationVariable` corresponding to the given tag. If no variable is found, the returned weak pointer will be empty.
-		 */
+        /**
+         * @brief Retrieves a weak pointer to the `AnimationVariable` associated with the specified tag.
+         * @param tag The unique identifier (tag) of the `AnimationVariable` to retrieve.
+         * @return A std::weak_ptr to the `AnimationVariable` corresponding to the given tag. If no variable is found, the returned weak pointer will be empty.
+         */
 		std::weak_ptr<AnimationVariable> GetVariable(std::uint32_t tag) const;
 
-		/**
-		 * @brief Retrieves a std::weak_ptr to an `AnimationVariable` corresponding to the given `IUIAnimationVariable` pointer.
-		 * @param variable A pointer to the `IUIAnimationVariable` for which to obtain the `AnimationVariable`.
-		 * @return A std::weak_ptr to the associated `AnimationVariable` object. If no variable is found, the returned weak pointer will be empty.
-		 */
+        /**
+         * @brief Retrieves a std::weak_ptr to an `AnimationVariable` corresponding to the given `IUIAnimationVariable` pointer.
+         * @param variable A pointer to the `IUIAnimationVariable` for which to obtain the `AnimationVariable`.
+         * @return A std::weak_ptr to the associated `AnimationVariable` object. If no variable is found, the returned weak pointer will be empty.
+         */
 		std::weak_ptr<AnimationVariable> GetVariable(IUIAnimationVariable* variable) const;
 
         /**

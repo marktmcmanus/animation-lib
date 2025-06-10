@@ -14,9 +14,8 @@ namespace anim
      * 
      * The `AnimationVariable` class creates and managers an `IUIAnimationVariable` object. When contructing an
      * AnimationVariable an optional tag can be given, if the tag is not given one will be generated. Generated tags
-	 * start with the maximum value of `std::uint32_t` and are decremented for each new `AnimationVariable` created.
-     * 
-	 * While you can create an `AnimationVariable` directly is it recommended to use the `Animation::CreateVariable()` 
+     * start with the maximum value of `std::uint32_t` and are decremented for each new `AnimationVariable` created.
+     * While you can create an `AnimationVariable` directly is it recommended to use the `Animation::CreateVariable()` 
      * function to create and manage `AnimationVariables`.
      */
     class AnimationVariable
@@ -31,14 +30,14 @@ namespace anim
          * @param initialValue The initial value of the animation variable.
          * @param tag Optional tag for the variable. If not provided, a unique tag will be generated.
          * 
-		 * @remarks It is recommended to use the `Animation::CreateVariable()` function to create and manage `AnimationVariable` instances.
-		 */
+         * @remarks It is recommended to use the `Animation::CreateVariable()` function to create and manage `AnimationVariable` instances.
+         */
         AnimationVariable(
             IUIAnimationManager* manager, 
             double initialValue, 
             std::optional<uint32_t> tag);
 
-		/**
+        /**
         * @brief Destroys the `AnimationVariable` object and releases resources.
         */
         ~AnimationVariable();
@@ -46,7 +45,7 @@ namespace anim
         /**
          * @brief Sets the handler to be called when a variable changes.
          * 
-		 * The `VariableChangeHandler` will receive updated variables as `double` values. 
+         * The `VariableChangeHandler` will receive updated variables as `double` values. 
          * 
          * @param handler A pointer to a `VariableChangeHandler` that will handle variable change notifications.
          * @return An HRESULT value indicating success or failure of setting the handler.
@@ -66,7 +65,7 @@ namespace anim
         /**
          * @brief Retrieves the value of the tag.
          * 
-		 * The returned tag can be used to access the variable in the `Animation` class.
+         * The returned tag can be used to access the variable in the `Animation` class.
          * 
          * @return The current value of the tag as an unsigned 32-bit integer.
          */
@@ -75,78 +74,78 @@ namespace anim
         /**
          * @brief Retrieves the value of the variable as a double.
          * @return An optional containing the double value if available; otherwise, an empty optional.
-		 * @remarks If an empty optional is return call `GetError()` to retrieve the error code.
+         * @remarks If an empty optional is return call `GetError()` to retrieve the error code.
          */
         std::optional<double> GetDouble();
 
         /**
          * @brief Retrieves the final value of the variable as a double.
-		 * @return An optional containing the final double value if available; otherwise, an empty optional.
+         * @return An optional containing the final double value if available; otherwise, an empty optional.
          * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
-		 */
+         */
         std::optional<double> GetFinalDouble();
 
         /**
-		 * @brief Retrieves the previous value of the variable as a double.
+         * @brief Retrieves the previous value of the variable as a double.
          * @return An optional containing the previous double value if available; otherwise, an empty optional.
          * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
-		 */
+         */
         std::optional<double> GetPreviousDouble();
 
         /**
          * @brief Retrieves the value of the variable as an integer.
          * @return An optional containing the integer value if available; otherwise, an empty optional.
          * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
-		 */
+         */
         std::optional<int> GetInteger();
 
         /**
          * @brief Retrieves the final value of the variable as an integer.
          * @return An optional containing the final integer value if available; otherwise, an empty optional.
-		 * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
+         * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
          */
         std::optional<int> GetFinalInteger();
 
         /**
          * @brief Retrieves the previous value of the variable as an integer.
          * @return An optional containing the previous integer value if available; otherwise, an empty optional.
-		 * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
+         * @remarks If an empty optional is returned, call `GetError()` to retrieve the error code.
          */
         std::optional<int> GetPreviousInteger();
 
         /**
          * @brief Retrieves a pointer to the `IUIAnimationStoryboard` currently animating this variable.
          * 
-		 * The returned can ve used with the `Animation::GetStoryboard()` function to retrieve the `Storyboard` 
+         * The returned can ve used with the `Animation::GetStoryboard()` function to retrieve the `Storyboard` 
          * instance managed by the `Animation` class.
          * 
          * @return A pointer to an `IUIAnimationStoryboard` currently animating this variable.
          */
         IUIAnimationStoryboard* GetStoryboard();
 
-		/**
-		 * @brief Sets the lower bounds for this variable.
-		 * @param lowerBound The lower bounds.
-		 * @return `true` if the lower bound was set successfully; otherwise, `false`.
+        /**
+         * @brief Sets the lower bounds for this variable.
+         * @param lowerBound The lower bounds.
+         * @return `true` if the lower bound was set successfully; otherwise, `false`.
          * @remarks If `false` is returned, call `GetError()` to retrieve the error code.
-		 */
-		bool SetLowerBounds(double lowerBound);
+         */
+        bool SetLowerBounds(double lowerBound);
 
         /**
          * @brief Sets the upper bounds for this variable.
          * @param upperBound The upper bounds.
          * @return `true` if the upper bound was set successfully; otherwise, `false`.
          * @remarks If `false` is returned, call `GetError()` to retrieve the error code.
-		 */
-		bool SetUpperBounds(double upperBound);
+         */
+        bool SetUpperBounds(double upperBound);
 
-		/**
-		 * @brief Sets the rounding mode for UI animation calculations.
-		 * @param roundingMode The rounding mode to be applied to UI animation values.
-		 * @return Returns true if the rounding mode was set successfully; otherwise, returns false.
+        /**
+         * @brief Sets the rounding mode for UI animation calculations.
+         * @param roundingMode The rounding mode to be applied to UI animation values.
+         * @return Returns true if the rounding mode was set successfully; otherwise, returns false.
          * @remarks If `false` is returned, call `GetError()` to retrieve the error code.
-		 */
-		bool SetRoundingMode(UI_ANIMATION_ROUNDING_MODE roundingMode);
+         */
+        bool SetRoundingMode(UI_ANIMATION_ROUNDING_MODE roundingMode);
 
         /**
          * @brief Checks whether the `AnimationVariable` is valid.
@@ -158,8 +157,8 @@ namespace anim
          * @brief Retrieves the last error code produced for a call to a function in `AnimationVariable`.
          * @return The HRESULT error code indicating the reason for failure.
          * @remarks Call this function if any of the other function call in `AnimationVariable` fail.
-		 */
-		HRESULT GetError() const { return m_Error; }
+         */
+        HRESULT GetError() const { return m_Error; }
 
         /**
          * @brief Retrieves the underlying `IUIAnimationVariable` object.
@@ -168,9 +167,9 @@ namespace anim
          * UI Animation Manager is required that is currently not implemented in animation-lib.
          * 
          * @return A pointer to the `IUIAnimationVariable` object managed by this `AnimationVariable` instance.
-		 * @remarks If you do call this and plan to store the pointer be sure to call `AddRef()` and `Release()` 
+         * @remarks If you do call this and plan to store the pointer be sure to call `AddRef()` and `Release()` 
          * on the returned pointer to manage its lifetime correctly.
-		 */
+         */
         IUIAnimationVariable* GetVariable() const { return m_AnimationVariable; }
 
     private:
