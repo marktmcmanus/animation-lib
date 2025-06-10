@@ -33,6 +33,7 @@ namespace anim
 		std::optional<UI_ANIMATION_STORYBOARD_STATUS> GetStatus();
 		bool HoldVariable(AnimationVariable& var);
 		bool SetLongestAcceptableDelay(double delay);
+        bool SetEventHandler( IUIAnimationStoryboardEventHandler* eventHandler );
 		HRESULT GetError() const { return m_Error; }
 
     private:

@@ -9,17 +9,15 @@ namespace anim
 {
 	class VariableChangeHandler : public IUIAnimationVariableChangeHandler
 	{
+		_ANIM_IUNKNOWN_DECL
+
 	public:
 		VariableChangeHandler() = default;
-
-		_ANIM_IUNKNOWN_DECL
 
 		HRESULT OnValueChanged(
 			IUIAnimationStoryboard* storyboard,
 			IUIAnimationVariable* variable,
 			double newValue,
 			double previousValue ) override;
-	private:
-		LONG m_Ref{ 0 };
 	};
 }

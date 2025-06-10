@@ -8,17 +8,17 @@ namespace anim
 {
     class AnimationTimerEventHandler : public IUIAnimationTimerEventHandler
     {
+        _ANIM_IUNKNOWN_DECL
+
     public:
         AnimationTimerEventHandler() = default;
-
-        _ANIM_IUNKNOWN_DECL
 
         // IUIAnimationTimerEventHandler
         virtual HRESULT OnPostUpdate() override;
         virtual HRESULT OnPreUpdate() override;
         virtual HRESULT OnRenderingTooSlow(UINT32 framesPerSecond) override;
 
-    private:
-        LONG m_Ref{ 0 };
+       //private:
+       // LONG m_Ref{ 0 };
     };
 }

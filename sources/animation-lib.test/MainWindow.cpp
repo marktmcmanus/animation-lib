@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "WindowAnimationEventHandler.h"
 #include "MainWindowVariableChangeHandler.h"
+#include "LogStoryboardEventHandler.h"
 
 #include "anim/transition/Constant.h"
 #include "anim/transition/AccelerateDecelerate.h"
@@ -117,6 +118,9 @@ void MainWindow::CreateStoryboard()
 
     if (auto sb = m_Storyboard.lock(); sb != nullptr)
     {
+        auto sbEvtHandler = new LogStoryboardEventHandler();
+        sb->SetEventHandler( sbEvtHandler );
+
 		auto xVar = m_Animation->GetVariable(VariablIds::X).lock();
 		auto yVar = m_Animation->GetVariable(VariablIds::Y).lock();
 

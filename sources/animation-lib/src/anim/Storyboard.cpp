@@ -148,13 +148,24 @@ bool anim::Storyboard::HoldVariable(anim::AnimationVariable& var)
 
 bool anim::Storyboard::SetLongestAcceptableDelay(double delay)
 {
-        if (IsOk())
+    if (IsOk())
     {
         m_Error = m_Storyboard->SetLongestAcceptableDelay(delay);
         return SUCCEEDED(m_Error);
     }
     m_Error = E_POINTER;
 	return false;
+}
+
+bool anim::Storyboard::SetEventHandler( IUIAnimationStoryboardEventHandler* eventHandler )
+{
+    if( IsOk() )
+    {
+        m_Error = m_Storyboard->SetStoryboardEventHandler( eventHandler );
+        return SUCCEEDED( m_Error );
+    }
+    m_Error = E_POINTER;
+    return false;
 }
 
 std::optional<UI_ANIMATION_KEYFRAME> anim::Storyboard::GetOrCreateKeyFrame(double offset)
