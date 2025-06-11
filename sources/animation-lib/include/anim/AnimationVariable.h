@@ -12,7 +12,7 @@ namespace anim
     /**
      * @brief Represents an animation variable that can be managed by the `Animation` class.
      * 
-     * The `AnimationVariable` class creates and managers an `IUIAnimationVariable` object. When contructing an
+     * The `AnimationVariable` class creates and manages an `IUIAnimationVariable` object. When contructing an
      * AnimationVariable an optional tag can be given, if the tag is not given one will be generated. Generated tags
      * start with the maximum value of `std::uint32_t` and are decremented for each new `AnimationVariable` created.
      * While you can create an `AnimationVariable` directly is it recommended to use the `Animation::CreateVariable()` 
@@ -22,7 +22,7 @@ namespace anim
     {
     public:
         /**
-         * @brief Constructs an `AnimationVariable` with the given manager and initial value.
+         * @brief Constructs an `AnimationVariable` with the given animation manager and initial value.
          * 
          * If a tag is not provided, a unique tag will be generated.
          * 
@@ -67,7 +67,7 @@ namespace anim
          * 
          * The returned tag can be used to access the variable in the `Animation` class.
          * 
-         * @return The current value of the tag as an unsigned 32-bit integer.
+         * @return The value of the tag.
          */
         std::uint32_t GetTag() const { return m_Tag; }
 

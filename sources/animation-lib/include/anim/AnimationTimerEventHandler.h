@@ -17,8 +17,5 @@ namespace anim
         virtual HRESULT OnPostUpdate() override;
         virtual HRESULT OnPreUpdate() override;
         virtual HRESULT OnRenderingTooSlow(UINT32 framesPerSecond) override;
-
-       //private:
-       // LONG m_Ref{ 0 };
     };
 }

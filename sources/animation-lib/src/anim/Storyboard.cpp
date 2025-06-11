@@ -5,7 +5,7 @@
 #include <limits>
 std::uint32_t anim::Storyboard::m_NextId = std::numeric_limits<uint32_t>::max();
 
-anim::Storyboard::Storyboard(IUIAnimationManager *manager, std::optional<uint32_t> tag)
+anim::Storyboard::Storyboard(IUIAnimationManager* manager, std::optional<uint32_t> tag)
 {
     m_Error = manager->CreateStoryboard(&m_Storyboard);
 
@@ -34,10 +34,10 @@ anim::Storyboard::~Storyboard()
 }
 
 bool anim::Storyboard::AddTransition(
-    std::weak_ptr<anim::transition::Transition> transition, 
+    std::weak_ptr<anim::transition::Transition> transition,
     AnimationVariable& var,
     double offset,
-    TransitionOptRef afterTransition )
+    TransitionOptRef afterTransition)
 {
     bool success = false;
     if (auto transitionPtr = transition.lock(); transitionPtr != nullptr)
@@ -49,9 +49,9 @@ bool anim::Storyboard::AddTransition(
                 transitionPtr->GetTransition(),
                 afterTransition->get().GetOrCreateKeyFrame(m_Storyboard, offset));
         }
-        else if (offset != 0.0 )
+        else if (offset != 0.0)
         {
-			auto keyFrame = GetOrCreateKeyFrame(offset);
+            auto keyFrame = GetOrCreateKeyFrame(offset);
             if (keyFrame.has_value())
             {
                 m_Error = m_Storyboard->AddTransitionAtKeyframe(
@@ -122,7 +122,7 @@ bool anim::Storyboard::Finish(double completionDeadline)
 
 std::optional<UI_ANIMATION_STORYBOARD_STATUS> anim::Storyboard::GetStatus()
 {
-    if( IsOk() )
+    if (IsOk())
     {
         UI_ANIMATION_STORYBOARD_STATUS status;
         m_Error = m_Storyboard->GetStatus(&status);
@@ -132,18 +132,30 @@ std::optional<UI_ANIMATION_STORYBOARD_STATUS> anim::Storyboard::GetStatus()
         }
     }
     m_Error = E_POINTER;
-	return std::nullopt;
+    return std::nullopt;
 }
 
 bool anim::Storyboard::HoldVariable(anim::AnimationVariable& var)
 {
     if (IsOk() && var.IsOk())
     {
-		m_Error = m_Storyboard->HoldVariable(var.GetVariable());
+        m_Error = m_Storyboard->HoldVariable(var.GetVariable());
         return SUCCEEDED(m_Error);
     }
     m_Error = E_POINTER;
     return false;
+}
+
+std::optional<double> anim::Storyboard::GetElapsedTime()
+{
+    if (IsOk())
+    {
+        double elapsedTime = 0.0;
+        m_Error = m_Storyboard->GetElapsedTime(&elapsedTime);
+        return elapsedTime;
+    }
+    m_Error = E_POINTER;
+    return std::nullopt;
 }
 
 bool anim::Storyboard::SetLongestAcceptableDelay(double delay)
@@ -154,15 +166,15 @@ bool anim::Storyboard::SetLongestAcceptableDelay(double delay)
         return SUCCEEDED(m_Error);
     }
     m_Error = E_POINTER;
-	return false;
+    return false;
 }
 
-bool anim::Storyboard::SetEventHandler( IUIAnimationStoryboardEventHandler* eventHandler )
+bool anim::Storyboard::SetEventHandler(IUIAnimationStoryboardEventHandler* eventHandler)
 {
-    if( IsOk() )
+    if (IsOk())
     {
-        m_Error = m_Storyboard->SetStoryboardEventHandler( eventHandler );
-        return SUCCEEDED( m_Error );
+        m_Error = m_Storyboard->SetStoryboardEventHandler(eventHandler);
+        return SUCCEEDED(m_Error);
     }
     m_Error = E_POINTER;
     return false;
@@ -174,15 +186,15 @@ std::optional<UI_ANIMATION_KEYFRAME> anim::Storyboard::GetOrCreateKeyFrame(doubl
     {
         UI_ANIMATION_KEYFRAME newKeyFrame;
         m_Error = m_Storyboard->AddKeyframeAtOffset(UI_ANIMATION_KEYFRAME_STORYBOARD_START, offset, &newKeyFrame);
-        if(SUCCEEDED(m_Error))
-        { 
+        if (SUCCEEDED(m_Error))
+        {
             m_KeyFrames[offset] = newKeyFrame;
         }
         else
         {
             return std::nullopt;
-		}
-        
+        }
+
     }
 
     return m_KeyFrames[offset];
