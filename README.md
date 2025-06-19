@@ -12,7 +12,7 @@ Follow these steps to build the project (with the test app):
 
 1. **Create a build directory & configure the build:**
    ```bash
-   cmake -S. -Bbuild -DBUILD_TESTS=ON
+   cmake -S. -Bbuild -DANIMBUILD_TESTS=ON
    ```
 
 2. **Build the project:**
@@ -25,7 +25,7 @@ Follow these steps to build the project (with the test app):
 For release build use `--config Release`:
 
 ```bash
-cmake -S. -Bbuild -DBUILD_TESTS=ON
+cmake -S. -Bbuild -DANIM_BUILD_TESTS=ON
 cmake --build build -j --config Release
 ```
 

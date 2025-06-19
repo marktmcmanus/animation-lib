@@ -20,7 +20,7 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${_library_source_list})
 # animation-lib.test
 #
 
-if(BUILD_TESTS)
+if(ANIM_BUILD_TESTS)
     include(FetchContent)
 
     set(wxBUILD_SHARED OFF)
