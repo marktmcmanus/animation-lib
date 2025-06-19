@@ -20,32 +20,34 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${_library_source_list})
 # animation-lib.test
 #
 
-include(FetchContent)
+if(BUILD_TESTS)
+    include(FetchContent)
 
-set(wxBUILD_SHARED OFF)
-set(wxUSE_WEBVIEW OFF)
+    set(wxBUILD_SHARED OFF)
+    set(wxUSE_WEBVIEW OFF)
 
-message(STATUS "Fetching wxWidgets...")
+    message(STATUS "Fetching wxWidgets...")
 
-FetchContent_Declare(
-   wxWidgets
-   GIT_REPOSITORY https://github.com/wxWidgets/wxWidgets.git
-   GIT_SHALLOW ON
-)
-FetchContent_MakeAvailable(wxWidgets)
+    FetchContent_Declare(
+       wxWidgets
+       GIT_REPOSITORY https://github.com/wxWidgets/wxWidgets.git
+       GIT_SHALLOW ON
+    )
+    FetchContent_MakeAvailable(wxWidgets)
 
-set(SRCS 
-    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.cpp" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.cpp" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.exe.manifest" )
+    set(SRCS 
+        "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.cpp" 
+        "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.cpp" 
+        "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindow.h"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.cpp"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/WindowAnimationEventHandler.h"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.cpp"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/MainWindowVariableChangeHandler.h"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.h"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/LogStoryboardEventHandler.cpp"
+	    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.test/main.exe.manifest" )
 
-add_executable("${PROJECT_NAME}.test" WIN32 ${SRCS} )
-target_compile_definitions("${PROJECT_NAME}.test" PUBLIC WIN32_LEAN_AND_MEAN)
-target_link_libraries("${PROJECT_NAME}.test" PRIVATE "${PROJECT_NAME}" wxcore wxnet )
+    add_executable("${PROJECT_NAME}.test" WIN32 ${SRCS} )
+    target_compile_definitions("${PROJECT_NAME}.test" PUBLIC WIN32_LEAN_AND_MEAN)
+    target_link_libraries("${PROJECT_NAME}.test" PRIVATE "${PROJECT_NAME}" wxcore wxnet )
+endif()
